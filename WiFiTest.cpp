@@ -106,7 +106,7 @@ void loop() {
         Serial.print("   [3] Stop Network w/ Spark.disconnect / WiFi.off\r\n");
     }
     Serial.print("   --> ");
-    while(!Serial.available()) { if (WiFi.ready()) Spark.process(); };
+    while(!Serial.available()) { if (WiFi.ready()) Particle.process(); };
     _ans = Serial.read();
     switch (_ans) {
         case '1':
@@ -125,9 +125,9 @@ void loop() {
                 }
                 else {
                     Serial.print(" connected\r\nCloud +");
-                    Spark.connect();
+                    Particle.connect();
                     _timeout = 0;
-                    while (_timeout < MAX_WIFI_RETRY && !Spark.connected()) { Serial.print("+"); _timeout++; delay(100);}
+                    while (_timeout < MAX_WIFI_RETRY && !Particle.connected()) { Serial.print("+"); _timeout++; delay(100);}
                     if (_timeout == MAX_WIFI_RETRY) {
                 	Serial.println("Failed to connect to Spark Cloud.");
                     }
@@ -144,9 +144,9 @@ void loop() {
         case '3':
             if (bWiFiReady) {
                 Serial.print("Stop Network\r\n\r\nCloud -");
-                Spark.disconnect();
+                Particle.disconnect();
                 _timeout = 0;
-                while (_timeout < MAX_WIFI_RETRY && Spark.connected()) { Serial.print("-"); _timeout++; delay(100);}
+                while (_timeout < MAX_WIFI_RETRY && Particle.connected()) { Serial.print("-"); _timeout++; delay(100);}
                 if (_timeout == MAX_WIFI_RETRY) {
                     Serial.println("Failed to disconnect from cloud");
                 }
@@ -165,7 +165,7 @@ void loop() {
 
                 Serial.print("CC3000 -");
                 WiFi.off();
-                while (WiFi.ready()) { Serial.print("-"); Spark.process(); delay(100); }
+                while (WiFi.ready()) { Serial.print("-"); Particle.process(); delay(100); }
                 while (ip_config.aucDNSServer[3] != 0 || ip_config.aucDNSServer[2] != 0)
                     { Serial.print("+"); delay(100); }
                 Serial.println(" off");
